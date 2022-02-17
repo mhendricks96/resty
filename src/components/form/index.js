@@ -1,8 +1,11 @@
 import React from 'react';
-// import './form.scss';
+import './form.scss';
+import { useState } from 'react';
+
 
 function Form(props) {
 
+  let [form, setForm] = useState({})
   function handleSubmit(e) {
     e.preventDefault();
     const formData = {
