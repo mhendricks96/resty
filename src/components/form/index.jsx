@@ -1,99 +1,64 @@
+/* eslint-disable default-case */
 import React from 'react';
-import './form.scss';
 import { useState } from 'react';
-
+import './form.scss';
 
 function Form(props) {
 
-  let [method, updateMethod] = useState('GET')
+ let [method, updateMethod] = useState('GET');
 
-
-  function handleChange(event) {
-    switch (event.target.id) {
+  function handleSelect(e){
+    switch (e.target.id){
       case 'get':
         updateMethod('GET');
         break;
-    case 'post':
-      updateMethod('POST');
-      break;
-    case 'delete':
-      updateMethod('DELETE');
-      break;
-    case 'put':
-      updateMethod('PUT');
-      break;
+      case 'post':
+        updateMethod('POST');
+        break;
+      case 'put':
+        updateMethod('PUT');
+        break;
+      case 'delete':
+        updateMethod('DELETE');
+        break;
     };
   }
 
-
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
     const formData = {
-      method:method,
-      url: event.target.urlinput.value,
+      method: method,
+      url: e.target.urlinput.value,
     };
-    if (method === 'POST' || method === 'PUT') {
-      formData.data = JSON.parse(event.target.reqbody.value);
-      console.log(formData.data)
-      props.handleApiCall(formData);
-    }
+    if (method === 'POST' || method === "PUT") formData.data = JSON.parse(e.target.reqbody.value);
+    console.log(formData.data);
+    props.handleApiCall(formData);
   }
+
 
   return (
-          <>
-            <form onSubmit={handleSubmit}>
-              <label >
-                <span>URL: </span>
-                <input name='url' id='urlinput' type='text' data-testid='url' />
-                <button type="submit" data-testid="submit">GO!</button>
+    <>
+      <form onSubmit={handleSubmit}>
+          <label >
+            <span>URL: </span>
+            <input name='url' id='urlinput' data-testid="url" type='text' />
+            <button type="submit" data-testid="submit">SUBMIT</button>
+          </label>
+          <label className="methods">
+            <button type="button" onClick={handleSelect} data-testid="get" id="get">GET</button>
+            <button type="button" onClick={handleSelect} data-testid="post" id="post">POST</button>
+            <button type="button" onClick={handleSelect} data-testid="put" id="put">PUT</button>
+            <button type="button" onClick={handleSelect} data-testid="delete" id="delete">DELETE</button>
+          </label> 
+            {((method === 'POST' || method === 'PUT') && 
+              <label for="reqbody">BODY:
+                <input type="text" id="reqbody" name="reqbody" data-testid="reqbody" />
               </label>
-              <label className="methods">
-                <button id="get" data-testid='get' onClick={handleChange}>GET</button>
-                <button id="post" data-testid='post' onClick={handleChange}>POST</button>
-                <button id="put" data-testid='put' onClick={handleChange}>PUT</button>
-                <button id="delete" data-testid='delete' onClick={handleChange}>DELETE</button>
-              </label>
-                {((method === 'POST' || method === 'PUT') && 
-                  <label for="reqbody">BODY:
-                    <input type="text" id="reqbody" name="reqbody" data-testid="reqbody" />
-                  </label>
             )}
-            </form>
-          </>
-        );
+
+        </form>
+      </>
+  );
 }
-
-
-// class Form extends React.Component {
-
-//   handleSubmit = e => {
-//     e.preventDefault();
-//     const formData = {
-//       method:'GET',
-//       url: 'https://pokeapi.co/api/v2/pokemon',
-//     };
-//     this.props.handleApiCall(formData);
-//   }
-
-//   render() {
-//     return (
-//       <>
-//         <form onSubmit={this.handleSubmit}>
-//           <label >
-//             <span>URL: </span>
-//             <input name='url' type='text' />
-//             <button type="submit">GO!</button>
-//           </label>
-//           <label className="methods">
-//             <span id="get">GET</span>
-//             <span id="post">POST</span>
-//             <span id="put">PUT</span>
-//             <span id="delete">DELETE</span>
-//           </label>
-//         </form>
-//       </>
-//     );
-//   }
-// }
 
 export default Form;
