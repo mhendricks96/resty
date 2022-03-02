@@ -1,4 +1,4 @@
-/* eslint-disable default-case */
+
 import React from 'react';
 import { useState } from 'react';
 import './form.scss';
@@ -21,6 +21,7 @@ function Form(props) {
       case 'delete':
         updateMethod('DELETE');
         break;
+      default: updateMethod('GET');
     };
   }
 
