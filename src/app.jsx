@@ -13,7 +13,7 @@ function App () {
 
   let [data, setData] = useState(null)
   let [requestParams, setRequestParams] = useState({})
-  let [loading, setLoading] = useState(false)
+  let [loading, updateLoading] = useState(false)
 
   
   useEffect(() => {
@@ -24,7 +24,7 @@ function App () {
         header: result.headers,
         data: result.data
       };
-      setLoading(false);
+      updateLoading(false);
       setData(data);
     }
     if (requestParams && requestParams.method){
@@ -34,17 +34,19 @@ function App () {
   
   
   async function callApi(requestParams) {
-    setLoading(true);
+    updateLoading(true);
     setRequestParams(requestParams);
+    updateLoading(false);
   }
 
   return (
     <React.Fragment>
       <Header />
+      <Form handleApiCall={callApi} />
+      {/* <div>'hi'</div> */}
+      <Results data={data} loading={loading}/>
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={callApi} />
-      <Results data={data} loading={loading}/>
       <Footer />
     </React.Fragment>
   );
