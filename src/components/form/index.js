@@ -3,16 +3,16 @@ import './form.scss';
 import { useState } from 'react';
 
 
-function Form(props) {
+function Form({onSubmit}) {
 
   let [form, setForm] = useState({})
   function handleSubmit(e) {
     e.preventDefault();
     const formData = {
       method:'GET',
-      url: 'https://pokeapi.co/api/v2/pokemon',
+      url: 'http://test.com',
     };
-    props.handleApiCall(formData);
+    onSubmit(formData)
   }
 
   return (
@@ -21,7 +21,7 @@ function Form(props) {
               <label >
                 <span>URL: </span>
                 <input name='url' type='text' />
-                <button type="submit">GO!</button>
+                <button type="submit" data-test-id="get-btn">GO!</button>
               </label>
               <label className="methods">
                 <span id="get">GET</span>
